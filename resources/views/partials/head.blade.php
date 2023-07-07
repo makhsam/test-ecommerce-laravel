@@ -18,4 +18,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        .w-5 {
+            width: 28px;
+        }
+        .h-5 {
+            height: 28px;
+        }
+    </style>
 </head>

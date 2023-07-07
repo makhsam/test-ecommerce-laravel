@@ -7,9 +7,9 @@
     <div class="hero-content">
         <div class="col-md-4 hero-text">
             <h3>
-                Welcome to the site Welcome to the site
+                Welcome to the ecommerce website
             </h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, assumenda. Culpa, libero.</p>
+            <p>You can practice here various web vulnerabilities</p>
             <button class="btn custom-border my-2 my-sm-0">Shop</button>
             <button class="btn custom-border my-2 my-sm-0">Contact Us</button>
         </div>
