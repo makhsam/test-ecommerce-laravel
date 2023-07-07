@@ -12,7 +12,7 @@ class WelcomePageController extends Controller
         $products = Product::inRandomOrder()->take(6)->get();
         $hotProducts = Product::inRandomOrder()->take(3)->get();
         return view('welcome')->with([
-            'products'=> $products,
+            'products' => $products,
             'hotProducts' => $hotProducts
         ]);
     }

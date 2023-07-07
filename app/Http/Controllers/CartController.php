@@ -4,28 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
-use Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
-
-    public function index() {
+    public function index()
+    {
         $mightLike = Product::mightAlsoLike()->get();
         return view('cart')->with('mightLike', $mightLike);
     }
 
-    public function store() {
+    public function store()
+    {
         session()->forget('coupon');
-        $duplicates = Cart::instance('default')->search(function($cartItem, $rowId) {
+        $duplicates = Cart::instance('default')->search(function ($cartItem, $rowId) {
             return $cartItem->id == request()->id;
         });
-        $duplicatesLater = Cart::instance('saveForLater')->search(function($cartItem, $rowId) {
+        $duplicatesLater = Cart::instance('saveForLater')->search(function ($cartItem, $rowId) {
             return $cartItem->id == request()->id;
         });
-        if($duplicates->isNotEmpty()) {
+        if ($duplicates->isNotEmpty()) {
             session()->flash('success', 'Item is already in your cart');
             return redirect()->route('cart.index');
-        } else if($duplicatesLater->isNotEmpty()) {
+        } else if ($duplicatesLater->isNotEmpty()) {
             Cart::instance('saveForLater')->remove($duplicatesLater->first()->rowId);
         }
         Cart::instance('default')->add(request()->id, request()->name, 1, request()->price)->associate('App\Product');
@@ -33,10 +34,10 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function update($id) {
+    public function update($id)
+    {
         session()->forget('coupon');
-        // dd(request()->all());
-        if(request()->productQuantity >= request()->quantity) {
+        if (request()->productQuantity >= request()->quantity) {
             Cart::instance('default')->update($id, request()->quantity);
             session()->flash('success', 'quantity updated successfully!');
             return response()->json(['success' => ''], 200);
@@ -45,23 +46,25 @@ class CartController extends Controller
         return response()->json(['error' => ''], 405);
     }
 
-    public function destroy($id, $cart) {
-        if($cart == 'default')
-        Cart::instance('default')->remove($id);
-        else if($cart = 'saveForLater')
-        Cart::instance('saveForLater')->remove($id);
+    public function destroy($id, $cart)
+    {
+        if ($cart == 'default')
+            Cart::instance('default')->remove($id);
+        else if ($cart = 'saveForLater')
+            Cart::instance('saveForLater')->remove($id);
         session()->flash('success', 'item has been removed');
         return back();
     }
-    
-    public function saveLater($id) {
+
+    public function saveLater($id)
+    {
         session()->forget('coupon');
         $item = Cart::get($id);
         Cart::remove($id);
-        $duplicates = Cart::instance('saveForLater')->search(function($cartItem, $rowId) use ($id) {
+        $duplicates = Cart::instance('saveForLater')->search(function ($cartItem, $rowId) use ($id) {
             return $rowId == $id;
         });
-        if($duplicates->isNotEmpty()) {
+        if ($duplicates->isNotEmpty()) {
             session()->flash('success', 'Item is already saved for later');
             return redirect()->route('cart.index');
         }
@@ -69,15 +72,16 @@ class CartController extends Controller
         session()->flash('success', 'Item has been saved for later');
         return redirect()->route('cart.index');
     }
-    
-    public function addToCart($id) {
+
+    public function addToCart($id)
+    {
         session()->forget('coupon');
         $item = Cart::instance('saveForLater')->get($id);
         Cart::instance('saveForLater')->remove($id);
-        $exist = Cart::instance('default')->search(function($cartItem, $rowId) use($item) {
+        $exist = Cart::instance('default')->search(function ($cartItem, $rowId) use ($item) {
             return $cartItem->id == $item->id;
         });
-        if($exist->isNotEmpty()) {
+        if ($exist->isNotEmpty()) {
             session()->flash('success', 'Item is already in the cart');
             return redirect()->route('cart.index');
         }
@@ -85,5 +89,4 @@ class CartController extends Controller
         session()->flash('success', 'item added to the cart');
         return redirect()->route('cart.index');
     }
-
 }

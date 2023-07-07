@@ -9,7 +9,8 @@ class CountryVisit extends Model
     protected $table = 'country_visits';
     protected $guarded = [];
 
-    public function incrementVisits() {
+    public function incrementVisits()
+    {
         $this->increment('visits');
     }
 }

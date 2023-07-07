@@ -58,16 +58,15 @@ class LoginController extends Controller
     {
         $provider = request()->provider;
         $providerUser = Socialite::driver($provider)->user();
-        if($providerUser->getEmail() == null) {
+        if ($providerUser->getEmail() == null) {
             $user = User::where($provider . '_id', $providerUser->getId())->first();
         } else {
             $user = User::where('email', $providerUser->getEmail())->first();
         }
-        if($user && $user->$provider . '_id' == null) {
-            dd('test');
+        if ($user && $user->$provider . '_id' == null) {
             $user->update([$provider . '_id' => $providerUser->getId()]);
         }
-        if(!$user) {
+        if (!$user) {
             $user = User::create([
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),

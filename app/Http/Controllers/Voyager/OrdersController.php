@@ -2,21 +2,14 @@
 
 namespace App\Http\Controllers\Voyager;
 
-use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 use App\Order;
-use Validator;
-use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\Events\BreadDataAdded;
-use TCG\Voyager\Events\BreadDataUpdated;
+use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 
-
-class OrdersController extends VoyagerBaseController {
-
-
-    
-
+class OrdersController extends VoyagerBaseController
+{
     //***************************************
     //                _____
     //               |  __ \
@@ -44,7 +37,7 @@ class OrdersController extends VoyagerBaseController {
             if ($model && in_array(SoftDeletes::class, class_uses($model))) {
                 $model = $model->withTrashed();
             }
-            if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope'.ucfirst($dataType->scope))) {
+            if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope' . ucfirst($dataType->scope))) {
                 $model = $model->{$dataType->scope}();
             }
             $dataTypeContent = call_user_func([$model, 'findOrFail'], $id);
@@ -78,5 +71,4 @@ class OrdersController extends VoyagerBaseController {
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'products'));
     }
-
 }

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use File;
+use Illuminate\Support\Facades\File;
 
 class HerokuSetup extends Command
 {
@@ -38,21 +38,22 @@ class HerokuSetup extends Command
      */
     public function handle()
     {
-        if($this->option('force')) {
+        if ($this->option('force')) {
             $this->proceed();
-        } else if($this->confirm('This will delete all your current data and database and install the default dummy data Are You Sure?')) {
+        } else if ($this->confirm('This will delete all your current data and database and install the default dummy data Are You Sure?')) {
             $this->proceed();
-        }            
+        }
     }
-    
-    protected function proceed() {
+
+    protected function proceed()
+    {
         File::deleteDirectory(public_path('storage/products/dummy'));
         File::deleteDirectory(public_path('storage/users'));
         $this->info(file_exists(public_path('/images/products')));
         $this->callSilent('storage:link');
         $copySuccess1 = File::copyDirectory(public_path('/images/products'), public_path('storage/products/dummy'));
         $copySuccess2 = File::copyDirectory(public_path('/images/users'), public_path('storage/users'));
-        if($copySuccess1 && $copySuccess2) {
+        if ($copySuccess1 && $copySuccess2) {
             $this->info('Images successfully moved to storage folder');
         }
         // $this->call('migrate:refresh', [

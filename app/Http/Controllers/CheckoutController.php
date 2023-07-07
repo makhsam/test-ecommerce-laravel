@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
-use Cart;
 use App\Order;
 use App\OrderProduct;
-use Cartalyst\Stripe\Stripe;
-use Mail;
-use App\Mail\OrderPlaced;
 use App\Product;
+use App\Mail\OrderPlaced;
+use Cartalyst\Stripe\Stripe;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
-
-
     public function index()
     {
         if (Cart::instance('default')->count() > 0) {
@@ -67,7 +65,7 @@ class CheckoutController extends Controller
             Cart::instance('default')->destroy();
             session()->forget('coupon');
             return redirect()->route('welcome')->with('success', 'Your order is completed successfully!');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->insertIntoOrdersTable($request, $e->getMessage());
             return back()->withError('Error ' . $e->getMessage());
         }
