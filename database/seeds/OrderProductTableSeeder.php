@@ -15,11 +15,11 @@ class OrderProductTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             OrderProduct::create([
-                'product_id' => rand(1, 120),
+                'product_id' => rand(1, 100),
                 'order_id' => Order::all()->random()->id,
-                'quantity' => rand(1,3),
+                'quantity' => rand(1, 3),
             ]);
         }
     }

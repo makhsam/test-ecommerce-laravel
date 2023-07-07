@@ -2,6 +2,10 @@
 
 function productImage($path)
 {
+    if (filter_var($path, FILTER_VALIDATE_URL)) {
+        return $path;
+    }
+
     return $path && file_exists('storage/' . $path) ? asset('storage/' . $path) : asset('images/not-found.jpg');
 }
 
