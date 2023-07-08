@@ -59,8 +59,14 @@ class ShopController extends Controller
 
     public function search($query)
     {
-        if (strlen($query) < 3) return back()->with('error', 'minimum query length is 3');
-        $products = Product::search($query)->paginate(10);
+        if (empty($query)) {
+            return back()->with('error', 'Please enter your search query');
+        }
+
+        $products = Product::query()
+            ->whereRaw("name LIKE '%{$query}%' OR details LIKE '%{$query}%'")
+            ->paginate(10);
+
         return view('search')->with(['products' => $products, 'query' => $query]);
     }
 }

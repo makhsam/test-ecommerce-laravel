@@ -61,10 +61,10 @@
     var searcher = $('#search')
     searcher.on('keypress', function(e) {
         if (e.which == 13) {
-            if (searcher.val().length > 2) {
+            if (searcher.val().length > 0) {
                 location.href = '/shop/search/' + searcher.val();
             } else {
-                alert('Minimun query length is 3');
+                alert('Please enter your search query');
             }
         }
     });
