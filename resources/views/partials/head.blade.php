@@ -31,5 +31,9 @@
                 height: 350px;
             }
         }
+        label.required:after {
+            content:" *";
+            color: red;
+        }
     </style>
 </head>
