@@ -26,5 +26,10 @@
         .h-5 {
             height: 28px;
         }
+        @media (min-width: 768px) {
+            .home-products .product img {
+                height: 350px;
+            }
+        }
     </style>
 </head>

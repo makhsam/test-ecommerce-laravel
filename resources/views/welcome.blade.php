@@ -24,7 +24,7 @@
     </div>
     <h2 class="header text-center">Featured Products</h2>
     <!-- start products row -->
-    <div class="row">
+    <div class="row home-products">
         @foreach ($products as $product)
             <!-- start single product -->
             <div class="col-md-6 col-sm-12 col-lg-4 product">
@@ -52,9 +52,10 @@
         </a>
     </div>
     <hr>
+
     <h2 class="header text-center">Hot Sales</h2>
     <!-- start products row -->
-    <div class="row">
+    <div class="row home-products">
         @foreach ($hotProducts as $product)
             <!-- start single product -->
             <div class="col-md-6 col-sm-12 col-lg-4 product">
